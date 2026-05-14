@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class LoansController {
 
-    @GetMapping(path = "/myloan")
+    @GetMapping(path = "/myloans")
     public ResponseEntity<String> getLoansDetails() {
         return ResponseEntity.ok("This is the loan controller");
     }
