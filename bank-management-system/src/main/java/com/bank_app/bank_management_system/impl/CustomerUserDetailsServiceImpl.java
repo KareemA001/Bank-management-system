@@ -6,7 +6,6 @@ import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
-import org.jspecify.annotations.NullMarked;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
@@ -27,7 +26,7 @@ public class CustomerUserDetailsServiceImpl implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Customer customer = this.customerRepository.findByEmail(username)
-                .orElseThrow(() -> new EntityNotFoundException("There is no user with this username "+username));
+                .orElseThrow(() -> new UsernameNotFoundException("There is no user with this username"));
         List<GrantedAuthority> authority = List.of(new SimpleGrantedAuthority(customer.getRole()));
         return new User(customer.getEmail(),customer.getPassword(),authority);
     }
