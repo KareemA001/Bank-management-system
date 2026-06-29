@@ -28,6 +28,6 @@ public class CustomerUserDetailsServiceImpl implements UserDetailsService {
         Customer customer = this.customerRepository.findByEmail(username)
                 .orElseThrow(() -> new UsernameNotFoundException("There is no user with this username"));
         List<GrantedAuthority> authority = List.of(new SimpleGrantedAuthority(customer.getRole()));
-        return new User(customer.getEmail(),customer.getPassword(),authority);
+        return new User(customer.getEmail(),null,authority);
     }
 }

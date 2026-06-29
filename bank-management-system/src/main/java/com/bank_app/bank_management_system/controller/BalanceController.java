@@ -1,14 +1,29 @@
 package com.bank_app.bank_management_system.controller;
 
-import org.springframework.http.ResponseEntity;
+import com.bank_app.bank_management_system.model.AccountTransactions;
+import com.bank_app.bank_management_system.repository.AccountTransactionsRepository;
+import com.bank_app.bank_management_system.repository.AccountsRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
+@RequiredArgsConstructor
 public class BalanceController {
 
-    @GetMapping(path = "/mybalance")
-    public ResponseEntity<String> getBalanceDetails() {
-        return ResponseEntity.ok("This is the balance controller");
+    private final AccountTransactionsRepository accountTransactionsRepository;
+
+    @GetMapping("/myBalance")
+    public List<AccountTransactions> getBalanceDetails(@RequestParam long id) {
+        List<AccountTransactions> accountTransactions = accountTransactionsRepository.
+                findByCustomerIdOrderByTransactionDtDesc(id);
+        if (accountTransactions != null) {
+            return accountTransactions;
+        } else {
+            return null;
+        }
     }
 }
