@@ -43,12 +43,15 @@ public class ProdProjectSecurityConfig {
                 .redirectToHttps(https -> https.requestMatchers(AnyRequestMatcher.INSTANCE))
                 .csrf(csrfConfig -> csrfConfig.disable())
                 .authorizeHttpRequests(request -> request
-                        .requestMatchers("/myaccount",
-                                "/myLoans",
-                                "/myCards",
-                                "/myBalance",
-                                "/user")
-                        .authenticated()
+                        /*.requestMatchers("/myAccount").hasAuthority("VIEWACCOUNT")
+                        .requestMatchers("/myLoans").hasAuthority("VIEWBALANCE")
+                        .requestMatchers("/myCards").hasAuthority("VIEWCARDS")
+                        .requestMatchers("/myBalance").hasAnyAuthority("VIEWACCOUNT","VIEWLOANS","VIEWBALANCE")*/
+                        .requestMatchers("/myAccount").hasRole("USER")
+                        .requestMatchers("/myCards").hasRole("USER")
+                        .requestMatchers("/myBalance").hasAnyRole("USER","ADMIN")
+                        .requestMatchers("/myLoans").hasRole("USER")
+                        .requestMatchers("/user").authenticated()
                         .requestMatchers("/myContact",
                                 "/myNotices",
                                 "/register",
