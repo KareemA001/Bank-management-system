@@ -3,7 +3,10 @@ package com.bank_app.bank_management_system.config;
 
 import com.bank_app.bank_management_system.exception.CustomAccessDeniedHandler;
 import com.bank_app.bank_management_system.exception.CustomBasicAuthenticationEntryPoint;
+import com.bank_app.bank_management_system.filter.AuthoritiesLoggingAfterFilter;
+import com.bank_app.bank_management_system.filter.AuthoritiesLoggingAtFilter;
 import com.bank_app.bank_management_system.filter.CsrfCookieFilter;
+import com.bank_app.bank_management_system.filter.RequestValidationBeforeFilter;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.jspecify.annotations.Nullable;
@@ -59,6 +62,9 @@ public class ProjectSecurityConfig {
                         .ignoringRequestMatchers("/contact","/register")
                         .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()))
                 .addFilterAfter(new CsrfCookieFilter(), BasicAuthenticationFilter.class)
+                .addFilterBefore(new RequestValidationBeforeFilter(), BasicAuthenticationFilter.class)
+                .addFilterAfter(new AuthoritiesLoggingAfterFilter(), BasicAuthenticationFilter.class)
+                .addFilterAt(new AuthoritiesLoggingAtFilter(), BasicAuthenticationFilter.class)
                 .sessionManagement(smc -> smc.invalidSessionUrl("/invalidSession")
                         .maximumSessions(3).maxSessionsPreventsLogin(true).expiredUrl("/expiresSession"))
                 .redirectToHttps(https -> https.disable())

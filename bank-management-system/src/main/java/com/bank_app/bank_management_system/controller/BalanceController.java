@@ -2,7 +2,6 @@ package com.bank_app.bank_management_system.controller;
 
 import com.bank_app.bank_management_system.model.AccountTransactions;
 import com.bank_app.bank_management_system.repository.AccountTransactionsRepository;
-import com.bank_app.bank_management_system.repository.AccountsRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
