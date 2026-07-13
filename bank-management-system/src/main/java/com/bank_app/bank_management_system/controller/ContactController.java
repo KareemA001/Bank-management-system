@@ -3,11 +3,15 @@ package com.bank_app.bank_management_system.controller;
 import com.bank_app.bank_management_system.model.Contact;
 import com.bank_app.bank_management_system.repository.ContactRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PostFilter;
+import org.springframework.security.access.prepost.PreFilter;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.sql.Date;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 @RestController
@@ -17,10 +21,18 @@ public class ContactController {
     private final ContactRepository contactRepository;
 
     @PostMapping("/contact")
-    public Contact saveContactInquiryDetails(@RequestBody Contact contact) {
-        contact.setContactId(getServiceReqNumber());
-        contact.setCreateDt(new Date(System.currentTimeMillis()));
-        return contactRepository.save(contact);
+    // @PreFilter("filterObject.contactName != Test")
+    @PostFilter("filterObject.contactName != 'Test'")
+    public List<Contact> saveContactInquiryDetails(@RequestBody List<Contact> contacts) {
+        List<Contact> returnedContacts = new ArrayList<>();
+        if (!contacts.isEmpty()) {
+            Contact contact = contacts.getFirst();
+            contact.setContactId(getServiceReqNumber());
+            contact.setCreateDt(new Date(System.currentTimeMillis()));
+            Contact returnedObject = contactRepository.save(contact);
+            returnedContacts.add(returnedObject);
+        }
+        return returnedContacts;
     }
 
     public String getServiceReqNumber() {
