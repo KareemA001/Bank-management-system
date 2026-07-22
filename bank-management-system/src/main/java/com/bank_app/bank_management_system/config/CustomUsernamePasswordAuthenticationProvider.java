@@ -13,7 +13,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
-@Component
+//@Component
 @Profile("!prod")
 @RequiredArgsConstructor
 public class CustomUsernamePasswordAuthenticationProvider implements AuthenticationProvider {
